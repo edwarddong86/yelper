@@ -1,0 +1,22 @@
+{
+  "name": "yelper",
+  "version": "0.0.0",
+  "homepage": "https://github.com/edwarddong86/yelper",
+  "authors": [
+    "Edward Dong <edwarddong86@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "angular": "~1.4.1",
+    "angular-route": "~1.4.1",
+    "angular-animate": "~1.4.1"
+  }
+}

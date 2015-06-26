@@ -1,0 +1,1 @@
+angular.module("myApp",["app.routes","mainCtrl"]),angular.module("app.routes",["ngRoute"]).config(function(l,e){l.when("/",{templateUrl:"app/views/pages/home.html",controller:"mainController",controllerAs:"main"}),e.html5Mode(!0)}),angular.moduel("mainCtrl",[]).controller("mainController",function(){var l=this;l.message="test"});

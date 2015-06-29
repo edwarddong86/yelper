@@ -7,6 +7,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var ngAnnotate = require('gulp-ng-annotate');
 var nodemon = require('gulp-nodemon');
+var mocha = require('gulp-mocha');
 
 gulp.task('js', function() {
 
@@ -41,13 +42,18 @@ gulp.task('watch', function() {
 gulp.task('nodemon', function() {
     nodemon({
         script: 'server.js',
-        ext: 'js less html'
+        ext: 'js html'
     })
         .on('start', ['watch'])
         .on('change', ['watch'])
         .on('restart', function() {
             console.log('Restarted');
         });
+});
+
+gulp.task('test', function() {
+    return gulp.src(['tests/*.js'])
+        .pipe(mocha({reporter: 'list'}));
 });
 
 gulp.task('default', ['nodemon']);

@@ -1,1 +1,1 @@
-angular.module('myApp', ['app.routes', 'mainCtrl']);
+angular.module('myYelp', ['app.routes', 'mainCtrl']);

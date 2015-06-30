@@ -2,6 +2,7 @@
 ###A Yelp search tool that will give top searches for every ethnic food based on a location search
 
 1.  Users can search which city to look for restaurants
+https://cloud.githubusercontent.com/assets/10639044/8386059/18f47a96-1c02-11e5-9c9c-964496da8544.png
 2.  Users can select the miles radius of their search query
 3.  A result will display showing the top results with each ethnic food in a category in the form of a d3 photo accordion.  
 4.  Each photo accordion will have a collage of the restaurant pictures and will zoom to full screen when clicked.

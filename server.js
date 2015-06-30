@@ -27,7 +27,7 @@ app.get('/businesses/:location/:food', function(req, res) {
   var client = yelp.createClient(yelpKey.apiKey);
   searchParameters.term = 'food';
   searchParameters.location = req.params.location;
-  searchParameters.category_filter = req.params.term;
+  searchParameters.category_filter = req.params.food;
 console.log(searchParameters.location);
   client.search(searchParameters).then(function (data) {
     res.send(data);

@@ -5,7 +5,9 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var port = process.env.PORT || 8080;
-var yelp = require('node-yelp')
+var yelp = require('node-yelp');
+var yelpKey = require('./secret.js');
+console.log(yelpKey);
 
 app.use(express.static(__dirname + '/public'));
 
@@ -19,26 +21,17 @@ app.use('/', function(req, res, next) {
   next();
 });
 
-app.get('/foods/:location', function(req, res) {
+app.get('/businesses/:location/:food', function(req, res) {
 
   var searchParameters = {};
-  var client = yelp.createClient({
-    oauth: {
-      consumer_key: "O1QsJq-LZt8AudUxN5bNEA",
-      consumer_secret: "nCNX2V_-fOXFNGn9Xqtu3__SVc8",
-      token: "Eoqm1zjVHUoY-bvZFBhNPT12Wch7MgOT",
-      token_secret: "jsdzQAYdwW5cWDDw-NVpfzK3_4M"
-    }
-  });
-
-  searchParameters.terms = "food";
+  var client = yelp.createClient(yelpKey.apiKey);
+  searchParameters.term = 'food';
   searchParameters.location = req.params.location;
+  searchParameters.category_filter = req.params.term;
 console.log(searchParameters.location);
   client.search(searchParameters).then(function (data) {
     res.send(data);
   });
-
-
 });
 
 app.listen(port);

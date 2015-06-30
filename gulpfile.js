@@ -53,7 +53,7 @@ gulp.task('nodemon', function() {
 
 gulp.task('test', function() {
     return gulp.src(['tests/*.js'])
-        .pipe(mocha({reporter: 'list'}));
+        .pipe(mocha({reporter: 'landing'}));
 });
 
 gulp.task('default', ['nodemon']);

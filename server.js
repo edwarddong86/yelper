@@ -7,7 +7,6 @@ var path = require('path');
 var port = process.env.PORT || 8080;
 var yelp = require('node-yelp');
 var yelpKey = require('./secret.js');
-console.log(yelpKey);
 
 app.use(express.static(__dirname + '/public'));
 
@@ -21,17 +20,19 @@ app.use('/', function(req, res, next) {
   next();
 });
 
-app.get('/businesses/:location/:food', function(req, res) {
+app.get('/businesses/:location/:reqNum', function(req, res) {
 
-  var searchParameters = {};
   var client = yelp.createClient(yelpKey.apiKey);
-  searchParameters.term = 'food';
+  var searchParameters = {};
   searchParameters.location = req.params.location;
-  searchParameters.category_filter = req.params.food;
-console.log(searchParameters.location);
-  client.search(searchParameters).then(function (data) {
-    res.send(data);
-  });
+  searchParameters.sort = 1;
+  searchParameters.offset = req.params.reqNum;
+  searchParameters.radius_filter = 40000;
+
+    client.search(searchParameters).then(function (data) {
+      res.send(data);
+    });
+
 });
 
 app.listen(port);

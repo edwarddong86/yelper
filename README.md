@@ -7,5 +7,5 @@
 
 3.  Users can analyze the correlation of the area's businesses.
 
-![alt tag](/Users/edwarddong/yelper/mockups/Graphing.png)
+![alt tag](https://cloud.githubusercontent.com/assets/10639044/8482805/d515d3c6-20a0-11e5-8e93-51cddfe67b43.png)
 

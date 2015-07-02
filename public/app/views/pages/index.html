@@ -22,6 +22,7 @@
 <div class="jumbotron text-center">
   <input type="text" ng-model="main.location" placeholder="Location">
   <button type="button" ng-click="main.submit()">Graph</button>
+  <div ng-repeat="business in main.organizedData">{{business.name}}</div>
   <div id="graph"></div>
 </div>
 

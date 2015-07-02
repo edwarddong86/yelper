@@ -29,7 +29,6 @@ app.get('/businesses/:location/:term/:reqNum', function(req, res) {
   searchParameters.sort = 1;
   searchParameters.offset = req.params.reqNum;
   searchParameters.limit = 20;
-  console.log(searchParameters.offset);
   searchParameters.radius_filter = 40000;
 
     client.search(searchParameters).then(function (data) {

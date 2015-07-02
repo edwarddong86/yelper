@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Workflow!</title>
+  <title>Yelper</title>
 
   <!-- CSS -->
   <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap.min.css">
@@ -11,18 +11,18 @@
   <script src="assets/libs/angular/angular.min.js"></script>
   <script src="assets/libs/angular-route/angular-route.min.js"></script>
   <script src="assets/libs/angular-animate/angular-animate.min.js"></script>
-
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="http://www.d3plus.org/js/d3.js"></script>
+  <script src="http://www.d3plus.org/js/d3plus.js"></script>
   <!-- APP -->
-  <script src="app/controllers/mainCtrl.js"></script>
-  <script src="app/app.routes.js"></script>
   <script src="app/app.js"></script>
 </head>
 <body class="container" ng-app="myYelp" ng-controller="yelpController as main">
 
 <div class="jumbotron text-center">
   <input type="text" ng-model="main.location" placeholder="Location">
-  <button type="button" ng-click="main.submit()">click</button>
-  <div ng-repeat="business in main.data">{{business.name}}</div>
+  <button type="button" ng-click="main.submit()">Graph</button>
+  <div id="graph"></div>
 </div>
 
 <div ng-view></div>

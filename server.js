@@ -20,19 +20,21 @@ app.use('/', function(req, res, next) {
   next();
 });
 
-app.get('/businesses/:location/:reqNum', function(req, res) {
+app.get('/businesses/:location/:term/:reqNum', function(req, res) {
 
   var client = yelp.createClient(yelpKey.apiKey);
   var searchParameters = {};
   searchParameters.location = req.params.location;
+  searchParameters.term = req.params.term;
   searchParameters.sort = 1;
   searchParameters.offset = req.params.reqNum;
+  searchParameters.limit = 20;
+  console.log(searchParameters.offset);
   searchParameters.radius_filter = 40000;
 
     client.search(searchParameters).then(function (data) {
       res.send(data);
     });
-
 });
 
 app.listen(port);

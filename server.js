@@ -10,6 +10,11 @@ var yelpKey = require('./secret.js');
 
 app.use(express.static(__dirname + '/public'));
 
+app.use(function(req, res, next) {
+  console.log(req.url);
+  next();
+});
+
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/app/views/pages/index.html'));
 });

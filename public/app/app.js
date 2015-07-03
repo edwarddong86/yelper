@@ -1,9 +1,7 @@
 var myYelp = angular.module('myYelp', []);
 
-myYelp.controller('yelpController', function($http, httpCache) {
+myYelp.controller('yelpController', function($http, $q) {
   vm = this;
-
-  vm.httpCache = $cacheFactory('$http');
 
   vm.yelpBusinesses = [];
 
@@ -21,6 +19,18 @@ myYelp.controller('yelpController', function($http, httpCache) {
     {"stars":"4.0-5.0", "name":"unclaimed"},
     {"stars":"4.0-5.0", "name":"claimed"}
   ];
+
+  var drawGraph = function() {
+    vm.barGraph = d3plus.viz()
+        .container("div#graph")
+        .data(vm.d3OrganizedData)
+        .type("bar")
+        .id("name")
+        .x("stars")
+        .y("value")
+        .draw();
+    return vm.barGraph;
+  };
 
   vm.dataOrganizer = function(data) {
 
@@ -45,93 +55,82 @@ myYelp.controller('yelpController', function($http, httpCache) {
   };
 
   vm.d3dataOrganizer = function(businessData){
-      for(var d = 0; d < businessData.length; d++) {
-        var oneStarUnclaimed = [];
-        var oneStarClaimed = [];
-        var twoStarUnclaimed = [];
-        var twoStarClaimed = [];
-        var threeStarUnclaimed = [];
-        var threeStarClaimed = [];
-        var fourStarUnclaimed = [];
-        var fourStarClaimed = [];
-        var fiveStarUnclaimed = [];
-        var fiveStarClaimed = [];
-        var rating = businessData[d].businessInfo.rating;
-        var claimed = businessData[d].businessInfo.claimed;
+    for(var d = 0; d < businessData.length; d++) {
+      var oneStarUnclaimed = [];
+      var oneStarClaimed = [];
+      var twoStarUnclaimed = [];
+      var twoStarClaimed = [];
+      var threeStarUnclaimed = [];
+      var threeStarClaimed = [];
+      var fourStarUnclaimed = [];
+      var fourStarClaimed = [];
+      var fiveStarUnclaimed = [];
+      var fiveStarClaimed = [];
+      var rating = businessData[d].businessInfo.rating;
+      var claimed = businessData[d].businessInfo.claimed;
 
 
-        if(rating < 1.0 && claimed == false) {
-          oneStarUnclaimed.push(businessData[d]);
-        } else if(rating < 1.0 && claimed == true) {
-          oneStarClaimed.push(businessData[d]);
-        } else if(rating < 2.0 && claimed == false) {
-          twoStarUnclaimed.push(businessData[d]);
-        } else if(rating < 2.0 && claimed == true) {
-          twoStarClaimed.push(businessData[d]);
-        } else if(rating < 3.0 && claimed == false) {
-          threeStarUnclaimed.push(businessData[d]);
-        } else if(rating < 3.0 && claimed == true) {
-          threeStarClaimed.push(businessData[d]);
-        } else if(rating < 4.0 && claimed == false) {
-          fourStarUnclaimed.push(businessData[d]);
-        } else if(rating < 4.0 && claimed == true) {
-          fourStarClaimed.push(businessData[d]);
-        } else if(rating < 5.0 && claimed == false) {
-          fiveStarUnclaimed.push(businessData[d]);
-        } else if(rating < 5.0 && claimed == true) {
-          fiveStarClaimed.push(businessData[d]);
-        }
-      }
-      vm.d3Data[0].value = oneStarUnclaimed.length;
-      vm.d3Data[1].value = oneStarClaimed.length;
-      vm.d3Data[2].value = twoStarUnclaimed.length;
-      vm.d3Data[3].value = twoStarClaimed.length;
-      vm.d3Data[4].value = threeStarUnclaimed.length;
-      vm.d3Data[5].value = threeStarClaimed.length;
-      vm.d3Data[6].value = fourStarUnclaimed.length;
-      vm.d3Data[7].value = fourStarClaimed.length;
-      vm.d3Data[8].value = fiveStarUnclaimed.length;
-      vm.d3Data[9].value = fiveStarClaimed.length;
-      return vm.d3Data;
-    };
-
-
-  vm.httpGetter = function(array){
-
-    for(var k = 0; k < array.length; k ++) {
-
-      for (var i = 0; i < 2; i++) {
-
-        vm.reqNum = i * 20;
-
-        $http.get('http://localhost:8080/businesses/' + vm.location + '/' + vm.term[k] + '/' + vm.reqNum, { cache: true })
-            .success(function (data) {
-              console.log('success');
-            }).error(function (data) {
-              console.log(data);
-            });
+      if(rating < 1.0 && claimed == false) {
+        oneStarUnclaimed.push(businessData[d]);
+      } else if(rating < 1.0 && claimed == true) {
+        oneStarClaimed.push(businessData[d]);
+      } else if(rating < 2.0 && claimed == false) {
+        twoStarUnclaimed.push(businessData[d]);
+      } else if(rating < 2.0 && claimed == true) {
+        twoStarClaimed.push(businessData[d]);
+      } else if(rating < 3.0 && claimed == false) {
+        threeStarUnclaimed.push(businessData[d]);
+      } else if(rating < 3.0 && claimed == true) {
+        threeStarClaimed.push(businessData[d]);
+      } else if(rating < 4.0 && claimed == false) {
+        fourStarUnclaimed.push(businessData[d]);
+      } else if(rating < 4.0 && claimed == true) {
+        fourStarClaimed.push(businessData[d]);
+      } else if(rating < 5.0 && claimed == false) {
+        fiveStarUnclaimed.push(businessData[d]);
+      } else if(rating < 5.0 && claimed == true) {
+        fiveStarClaimed.push(businessData[d]);
       }
     }
+    vm.d3Data[0].value = oneStarUnclaimed.length;
+    vm.d3Data[1].value = oneStarClaimed.length;
+    vm.d3Data[2].value = twoStarUnclaimed.length;
+    vm.d3Data[3].value = twoStarClaimed.length;
+    vm.d3Data[4].value = threeStarUnclaimed.length;
+    vm.d3Data[5].value = threeStarClaimed.length;
+    vm.d3Data[6].value = fourStarUnclaimed.length;
+    vm.d3Data[7].value = fourStarClaimed.length;
+    vm.d3Data[8].value = fiveStarUnclaimed.length;
+    vm.d3Data[9].value = fiveStarClaimed.length;
+    return vm.d3Data;
   };
 
-  vm.cachedResponse = httpCache.get('http://localhost:8080/businesses/' + vm.location + '/' + vm.term[k] + '/' + vm.reqNum);
+  vm.httpGetter = function(array) {
+    var promisedData = [];
+    for (var k = 0; k < array.length; k++) {
+      for (var i = 0; i < 2; i++) {
+        vm.reqNum = i * 20;
+        promisedData.push($http.get('http://localhost:8080/businesses/' + vm.location + '/' + vm.term[k] + '/' + vm.reqNum));
+      }
+    }
+    console.log(promisedData)
+;    $q.all(promisedData)
+        .then(
+        function(results) {
+          console.log(results);
+          var returnedData = dataOrganizer(results.data);
+          return returnedData;
+        });
+
+  };
 
   vm.submit = function() {
-
-    vm.organizedData = vm.dataOrganizer(vm.cachedResponse);
-    console.log(vm.organizedData);
+    vm.httpGetter(vm.term);
   };
-
 
 });
 
-//vm.d3OrganizedData = vm.d3dataOrganizer(vm.organizedData);
-//
-//              vm.barGraph = d3plus.viz()
-//                      .container("div#graph")
-//                      .data(vm.d3OrganizedData)
-//                      .type("bar")
-//                      .id("name")
-//                      .x("stars")
-//                      .y("value")
-//                      .draw();
+
+
+
+

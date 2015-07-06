@@ -8,8 +8,6 @@ myYelp.controller('yelpController', function($http, $q) {
   vm.term = ['american', 'chinese', 'markets', 'gas stations', 'liquor stores', 'bars', 'korean', 'mexican', 'gyms', 'antiques', 'cafe', 'electronics', 'clothes', 'beauty salons', 'hotels', 'donuts', 'bakery', 'mediterranean', 'italian', 'drug stores', 'chiropractors'];
 
   vm.d3Data = [
-    {"stars":"0.0-0.9", "name":"unclaimed"},
-    {"stars":"0.0-0.9", "name":"claimed"},
     {"stars":"1.0-1.9", "name":"unclaimed"},
     {"stars":"1.0-1.9", "name":"claimed"},
     {"stars":"2.0-2.9", "name":"unclaimed"},
@@ -28,9 +26,7 @@ myYelp.controller('yelpController', function($http, $q) {
 
         var businessInfo = {};
 
-        if (httpResults[j].data.businesses[a].review_count < 10) {
-          console.log('skip');
-        } else if (httpResults[j].data.businesses[a].id == businessInfo.id) {
+        if (httpResults[j].data.businesses[a].id == businessInfo.id) {
           console.log('skip');
         } else {
           businessInfo.name = httpResults[j].data.businesses[a].name;
@@ -46,8 +42,7 @@ myYelp.controller('yelpController', function($http, $q) {
   };
 
   vm.d3dataOrganizer = function(businessData){
-    var oneStarUnclaimed = [];
-    var oneStarClaimed = [];
+
     var twoStarUnclaimed = [];
     var twoStarClaimed = [];
     var threeStarUnclaimed = [];
@@ -62,11 +57,7 @@ myYelp.controller('yelpController', function($http, $q) {
       var rating = businessData[d].rating;
       var claimed = businessData[d].claimed;
 
-      if(rating < 1.0 && claimed == false) {
-        oneStarUnclaimed.push(businessData[d]);
-      } else if(rating < 1.0 && claimed == true) {
-        oneStarClaimed.push(businessData[d]);
-      } else if(rating < 2.0 && claimed == false) {
+      if(rating < 2.0 && claimed == false) {
         twoStarUnclaimed.push(businessData[d]);
       } else if(rating < 2.0 && claimed == true) {
         twoStarClaimed.push(businessData[d]);
@@ -84,17 +75,15 @@ myYelp.controller('yelpController', function($http, $q) {
         fiveStarClaimed.push(businessData[d]);
       }
     }
-    vm.d3Data[0].value = oneStarUnclaimed.length;
-    console.log( oneStarUnclaimed.length);
-    vm.d3Data[1].value = oneStarClaimed.length;
-    vm.d3Data[2].value = twoStarUnclaimed.length;
-    vm.d3Data[3].value = twoStarClaimed.length;
-    vm.d3Data[4].value = threeStarUnclaimed.length;
-    vm.d3Data[5].value = threeStarClaimed.length;
-    vm.d3Data[6].value = fourStarUnclaimed.length;
-    vm.d3Data[7].value = fourStarClaimed.length;
-    vm.d3Data[8].value = fiveStarUnclaimed.length;
-    vm.d3Data[9].value = fiveStarClaimed.length;
+
+    vm.d3Data[0].value = twoStarUnclaimed.length;
+    vm.d3Data[1].value = twoStarClaimed.length;
+    vm.d3Data[2].value = threeStarUnclaimed.length;
+    vm.d3Data[3].value = threeStarClaimed.length;
+    vm.d3Data[4].value = fourStarUnclaimed.length;
+    vm.d3Data[5].value = fourStarClaimed.length;
+    vm.d3Data[6].value = fiveStarUnclaimed.length;
+    vm.d3Data[7].value = fiveStarClaimed.length;
     console.log(fourStarClaimed.length);
     return vm.d3Data;
   };
@@ -125,10 +114,15 @@ myYelp.controller('yelpController', function($http, $q) {
                 .x("stars")
                 .y("value")
                 .draw();
+            $('#graph').on('click', function(){
+              console.log('hello');
+            })
+
           });
     };
     vm.httpGetter(vm.term);
   };
+
 
 });
 

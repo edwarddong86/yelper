@@ -1,4 +1,4 @@
-var myYelp = angular.module('myYelp', []);
+var myYelp = angular.module('myYelp', ['angular-loading-bar']);
 
 myYelp.controller('yelpController', function($http, $q) {
   vm = this;
@@ -87,8 +87,6 @@ myYelp.controller('yelpController', function($http, $q) {
     console.log(fourStarClaimed.length);
     return vm.d3Data;
   };
-
-
 
   vm.submit = function() {
     vm.httpGetter = function(array) {

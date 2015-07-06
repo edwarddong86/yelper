@@ -114,13 +114,28 @@ myYelp.controller('yelpController', function($http, $q) {
                 .x("stars")
                 .y("value")
                 .draw();
-            $('#graph').on('click', function(){
-              console.log('hello');
-            })
-
           });
+      $('#graph').on('click', function(d){
+        var d3PieData = [];
+        for(var p = 0; p < vm.d3Data.length; p++) {
+          if(d.target.__data__.stars == vm.d3Data[p].stars){
+            var pieObject = {};
+            pieObject.name = vm.d3Data[p].name;
+            pieObject.value = vm.d3Data[p].value;
+            d3PieData.push(pieObject);
+          }
+        }
+        d3plus.viz()
+            .container("#pie")
+            .data(d3PieData)
+            .type("pie")
+            .id("name")
+            .size("value")
+            .draw()
+      })
     };
     vm.httpGetter(vm.term);
+
   };
 
 

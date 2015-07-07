@@ -31,13 +31,15 @@
   </div>
 </div>
 <div class="row">
-<button type="button" class="btn btn-default pull-right" id="reload" ng-hide="main.hideButton" ng-show="main.showButton">Make Another Graph</button>
+<button type="button" class="btn btn-default pull-right wow bounceInUp" id="reload" ng-hide="main.hideElement" ng-show="main.showElement"><strong>Make Another Graph</strong></button>
 </div>
 <div class="row">
   <div class="col-md-9">
+    <h3 class="wow bounceInLeft" ng-hide="main.hideElement" ng-show="main.showElement">Histogram of {{main.location}} Businesses</h3>
     <div id="graph"></div>
   </div>
   <div class="col-md-3">
+    <h3 class="wow bounceInRight" ng-hide="main.hideElement" ng-show="main.showTag">Pie Chart of {{main.ratings}} Star Businesses</h3>
   <div id="pie"></div>
   </div>
   <div ng-view></div>

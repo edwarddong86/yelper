@@ -4,20 +4,19 @@ myYelp.controller('yelpController', function($http, $q) {
   vm = this;
 
   vm.yelpBusinesses = [];
-
-  vm.hideButton = 'true';
+  vm.hideElement = 'true';
 
   vm.term = ['american', 'chinese', 'markets', 'gas stations', 'liquor stores', 'bars', 'korean', 'mexican', 'gyms', 'antiques', 'cafe', 'electronics', 'clothes', 'beauty salons', 'hotels', 'donuts', 'bakery', 'mediterranean', 'italian', 'drug stores', 'chiropractors'];
 
   vm.d3Data = [
-    {"stars":"1.0-1.9", "name":"unclaimed", "color":"#636365"},
-    {"stars":"1.0-1.9", "name":"claimed", "color":"#cc0f00"},
-    {"stars":"2.0-2.9", "name":"unclaimed", "color":"#636365"},
-    {"stars":"2.0-2.9", "name":"claimed", "color":"#cc0f00"},
-    {"stars":"3.0-3.9", "name":"unclaimed", "color":"#636365"},
-    {"stars":"3.0-3.9", "name":"claimed", "color":"#cc0f00"},
-    {"stars":"4.0-5.0", "name":"unclaimed", "color":"#636365"},
-    {"stars":"4.0-5.0", "name":"claimed", "color":"#cc0f00"}
+    {"stars":"1.0-1.9", "name":"unclaimed", "color":"#92ffff"},
+    {"stars":"1.0-1.9", "name":"claimed", "color":"#032832"},
+    {"stars":"2.0-2.9", "name":"unclaimed", "color":"#92ffff"},
+    {"stars":"2.0-2.9", "name":"claimed", "color":"#032832"},
+    {"stars":"3.0-3.9", "name":"unclaimed", "color":"#92ffff"},
+    {"stars":"3.0-3.9", "name":"claimed", "color":"#032832"},
+    {"stars":"4.0-5.0", "name":"unclaimed", "color":"#92ffff"},
+    {"stars":"4.0-5.0", "name":"claimed", "color":"#032832"}
   ];
 
 
@@ -78,19 +77,19 @@ myYelp.controller('yelpController', function($http, $q) {
       }
     }
 
-    vm.d3Data[0].value = twoStarUnclaimed.length;
-    vm.d3Data[1].value = twoStarClaimed.length;
-    vm.d3Data[2].value = threeStarUnclaimed.length;
-    vm.d3Data[3].value = threeStarClaimed.length;
-    vm.d3Data[4].value = fourStarUnclaimed.length;
-    vm.d3Data[5].value = fourStarClaimed.length;
-    vm.d3Data[6].value = fiveStarUnclaimed.length;
-    vm.d3Data[7].value = fiveStarClaimed.length;
+    vm.d3Data[0].businesses = twoStarUnclaimed.length;
+    vm.d3Data[1].businesses = twoStarClaimed.length;
+    vm.d3Data[2].businesses = threeStarUnclaimed.length;
+    vm.d3Data[3].businesses = threeStarClaimed.length;
+    vm.d3Data[4].businesses = fourStarUnclaimed.length;
+    vm.d3Data[5].businesses = fourStarClaimed.length;
+    vm.d3Data[6].businesses = fiveStarUnclaimed.length;
+    vm.d3Data[7].businesses = fiveStarClaimed.length;
     return vm.d3Data;
   };
 
   vm.enter = function() {
-    if(event.keyCode ==13) {
+    if(event.keyCode === 13) {
       vm.httpGetter = function (array) {
         var promisedData = [];
         for (var k = 0; k < array.length; k++) {
@@ -103,7 +102,7 @@ myYelp.controller('yelpController', function($http, $q) {
             .then(
             function (results) {
               vm.hideSearch = 'true';
-              vm.showButton = 'true';
+              vm.showElement = 'true';
               var returnedData = vm.dataOrganizer(results);
               var d3OrganizedData = vm.d3dataOrganizer(returnedData);
               vm.barGraph = d3plus.viz()
@@ -112,22 +111,24 @@ myYelp.controller('yelpController', function($http, $q) {
                   .type("bar")
                   .id("name")
                   .x("stars")
-                  .y("value")
+                  .y("businesses")
                   .color("color")
                   .draw();
             });
         $('#graph').on('click', function (d) {
+          vm.ratings = d.target.__data__.stars;
+          vm.showTag = 'true';
           var d3PieData = [];
           for (var p = 0; p < vm.d3Data.length; p++) {
-            if (d.target.__data__.stars == vm.d3Data[p].stars) {
+            if (vm.ratings == vm.d3Data[p].stars) {
               var pieObject = {};
               pieObject.name = vm.d3Data[p].name;
-              pieObject.value = vm.d3Data[p].value;
+              pieObject.businesses = vm.d3Data[p].businesses;
               if(pieObject.name == "unclaimed") {
-                pieObject.color = "#636365";
+                pieObject.color = "#92ffff";
                 d3PieData.push(pieObject);
               } else if(pieObject.name == "claimed") {
-                pieObject.color = "#cc0f00";
+                pieObject.color = "#032832";
                 d3PieData.push(pieObject);
               }
             }
@@ -137,10 +138,11 @@ myYelp.controller('yelpController', function($http, $q) {
               .data(d3PieData)
               .type("pie")
               .id("name")
-              .size("value")
+              .size("businesses")
               .color("color")
-              .draw()
-        })
+              .draw();
+          vm.showTag = 'true';
+        });
       };
       vm.httpGetter(vm.term);
     }

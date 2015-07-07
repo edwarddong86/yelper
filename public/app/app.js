@@ -5,17 +5,19 @@ myYelp.controller('yelpController', function($http, $q) {
 
   vm.yelpBusinesses = [];
 
+  vm.hideButton = 'true';
+
   vm.term = ['american', 'chinese', 'markets', 'gas stations', 'liquor stores', 'bars', 'korean', 'mexican', 'gyms', 'antiques', 'cafe', 'electronics', 'clothes', 'beauty salons', 'hotels', 'donuts', 'bakery', 'mediterranean', 'italian', 'drug stores', 'chiropractors'];
 
   vm.d3Data = [
-    {"stars":"1.0-1.9", "name":"unclaimed"},
-    {"stars":"1.0-1.9", "name":"claimed"},
-    {"stars":"2.0-2.9", "name":"unclaimed"},
-    {"stars":"2.0-2.9", "name":"claimed"},
-    {"stars":"3.0-3.9", "name":"unclaimed"},
-    {"stars":"3.0-3.9", "name":"claimed"},
-    {"stars":"4.0-5.0", "name":"unclaimed"},
-    {"stars":"4.0-5.0", "name":"claimed"}
+    {"stars":"1.0-1.9", "name":"unclaimed", "color":"#636365"},
+    {"stars":"1.0-1.9", "name":"claimed", "color":"#cc0f00"},
+    {"stars":"2.0-2.9", "name":"unclaimed", "color":"#636365"},
+    {"stars":"2.0-2.9", "name":"claimed", "color":"#cc0f00"},
+    {"stars":"3.0-3.9", "name":"unclaimed", "color":"#636365"},
+    {"stars":"3.0-3.9", "name":"claimed", "color":"#cc0f00"},
+    {"stars":"4.0-5.0", "name":"unclaimed", "color":"#636365"},
+    {"stars":"4.0-5.0", "name":"claimed", "color":"#cc0f00"}
   ];
 
 
@@ -84,62 +86,72 @@ myYelp.controller('yelpController', function($http, $q) {
     vm.d3Data[5].value = fourStarClaimed.length;
     vm.d3Data[6].value = fiveStarUnclaimed.length;
     vm.d3Data[7].value = fiveStarClaimed.length;
-    console.log(fourStarClaimed.length);
     return vm.d3Data;
   };
 
-  vm.submit = function() {
-    vm.httpGetter = function(array) {
-      var promisedData = [];
-      for (var k = 0; k < array.length; k++) {
-        for (var i = 0; i < 2; i++) {
-          vm.reqNum = i * 20;
-          promisedData.push($http.get('http://localhost:8080/businesses/' + vm.location + '/' + vm.term[k] + '/' + vm.reqNum));
-        }
-      }
-      $q.all(promisedData)
-          .then(
-          function(results) {
-            var returnedData = vm.dataOrganizer(results);
-            console.log(returnedData);
-            var d3OrganizedData = vm.d3dataOrganizer(returnedData);
-            console.log(d3OrganizedData);
-            vm.barGraph = d3plus.viz()
-                .container("div#graph")
-                .data(d3OrganizedData)
-                .type("bar")
-                .id("name")
-                .x("stars")
-                .y("value")
-                .draw();
-          });
-      $('#graph').on('click', function(d){
-        var d3PieData = [];
-        for(var p = 0; p < vm.d3Data.length; p++) {
-          if(d.target.__data__.stars == vm.d3Data[p].stars){
-            var pieObject = {};
-            pieObject.name = vm.d3Data[p].name;
-            pieObject.value = vm.d3Data[p].value;
-            d3PieData.push(pieObject);
+  vm.enter = function() {
+    if(event.keyCode ==13) {
+      vm.httpGetter = function (array) {
+        var promisedData = [];
+        for (var k = 0; k < array.length; k++) {
+          for (var i = 0; i < 2; i++) {
+            vm.reqNum = i * 20;
+            promisedData.push($http.get('http://localhost:8080/businesses/' + vm.location + '/' + vm.term[k] + '/' + vm.reqNum));
           }
         }
-        d3plus.viz()
-            .container("#pie")
-            .data(d3PieData)
-            .type("pie")
-            .id("name")
-            .size("value")
-            .draw()
-      })
-    };
-    vm.httpGetter(vm.term);
-
+        $q.all(promisedData)
+            .then(
+            function (results) {
+              vm.hideSearch = 'true';
+              vm.showButton = 'true';
+              var returnedData = vm.dataOrganizer(results);
+              var d3OrganizedData = vm.d3dataOrganizer(returnedData);
+              vm.barGraph = d3plus.viz()
+                  .container("div#graph")
+                  .data(d3OrganizedData)
+                  .type("bar")
+                  .id("name")
+                  .x("stars")
+                  .y("value")
+                  .color("color")
+                  .draw();
+            });
+        $('#graph').on('click', function (d) {
+          var d3PieData = [];
+          for (var p = 0; p < vm.d3Data.length; p++) {
+            if (d.target.__data__.stars == vm.d3Data[p].stars) {
+              var pieObject = {};
+              pieObject.name = vm.d3Data[p].name;
+              pieObject.value = vm.d3Data[p].value;
+              if(pieObject.name == "unclaimed") {
+                pieObject.color = "#636365";
+                d3PieData.push(pieObject);
+              } else if(pieObject.name == "claimed") {
+                pieObject.color = "#cc0f00";
+                d3PieData.push(pieObject);
+              }
+            }
+          }
+          d3plus.viz()
+              .container("#pie")
+              .data(d3PieData)
+              .type("pie")
+              .id("name")
+              .size("value")
+              .color("color")
+              .draw()
+        })
+      };
+      vm.httpGetter(vm.term);
+    }
   };
 
+  $('#reload').click(function() {
+    location.reload();
+  })
 
 });
 
-
-
+new WOW().init();
 
 

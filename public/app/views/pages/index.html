@@ -6,9 +6,9 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="animate.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.7.1/loading-bar.min.css' type='text/css' media='all' />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.min.css">
 
   <!-- JS / LIBS -->
   <script src="assets/libs/angular/angular.min.js"></script>
@@ -17,21 +17,29 @@
   <script src="http://www.d3plus.org/js/d3.js"></script>
   <script src="http://www.d3plus.org/js/d3plus.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
 
   <!-- APP -->
   <script src="app/app.js"></script>
   <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.7.1/loading-bar.min.js'></script>
 </head>
 <body class="container" ng-app="myYelp" ng-controller="yelpController as main">
-
-<div class="jumbotron text-center">
-  <h3>Find the Correlation</h3>
-  <input type="text" ng-model="main.location" placeholder="Location">
-  <button type="button" ng-click="main.submit()">Graph</button>
+<h3></h3>
+<div class="row">
+  <div class="col-md-offset-5">
+    <input class="wow bounceInUp" type="text" ng-model="main.location" placeholder="Location" ng-keypress="main.enter()" ng-hide="main.hideSearch">
+  </div>
 </div>
 <div class="row">
-  <div id="graph"></div>
+<button type="button" class="btn btn-default pull-right" id="reload" ng-hide="main.hideButton" ng-show="main.showButton">Make Another Graph</button>
+</div>
+<div class="row">
+  <div class="col-md-9">
+    <div id="graph"></div>
+  </div>
+  <div class="col-md-3">
   <div id="pie"></div>
+  </div>
   <div ng-view></div>
 </div>
 </body>

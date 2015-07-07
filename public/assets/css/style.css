@@ -1,0 +1,22 @@
+body {
+  background: url("https://lh4.ggpht.com/oDWUjC8WWY6oYIXHkwjyjtAeq4Fc5SwcRE3R6ajSnZnsQBgkI0dLLq3i6u41rasUEoI=h900") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.90;
+}
+
+#reload {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+button {
+  z-index: 10;
+}
+
+#graph {  height: 500px;  }
+
+#pie {  height: 300px;  }
+

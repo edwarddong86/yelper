@@ -117,7 +117,7 @@ myYelp.controller('yelpController', function($http, $q) {
             });
         $('#graph').on('click', function (d) {
           vm.ratings = d.target.__data__.stars;
-          vm.showTag = 'true';
+
           var d3PieData = [];
           for (var p = 0; p < vm.d3Data.length; p++) {
             if (vm.ratings == vm.d3Data[p].stars) {
@@ -145,6 +145,7 @@ myYelp.controller('yelpController', function($http, $q) {
         });
       };
       vm.httpGetter(vm.term);
+      vm.showTag = 'true';
     }
   };
 

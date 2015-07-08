@@ -5,7 +5,9 @@
 
 2.  The program will automate a frequency histogram of claimed businesses and unclaimed businesses with corresponding ratings on the bottom.
 
-3.  Users can analyze the correlation of the area's businesses.
+![alt tag](file:///Users/edwarddong/Desktop/Screen%20Shot%202015-07-07%20at%209.57.23%20PM.png)
 
-![alt tag](https://cloud.githubusercontent.com/assets/10639044/8482805/d515d3c6-20a0-11e5-8e93-51cddfe67b43.png)
+3.  Users can click on a bar to see corresponding star ratings ratio of claimed to unclaimed businesses.
+
+![alt tag](file:///Users/edwarddong/Desktop/Screen%20Shot%202015-07-07%20at%209.57.41%20PM.png)
 

@@ -5,9 +5,9 @@
 
 2.  The program will automate a frequency histogram of claimed businesses and unclaimed businesses with corresponding ratings on the bottom.
 
-![alt tag](file:///Users/edwarddong/Desktop/Screen%20Shot%202015-07-07%20at%209.57.23%20PM.png)
+![alt tag](https://github.com/edwarddong86/yelper/blob/master/screenshots/Screen%20Shot%202015-07-07%20at%209.57.23%20PM.png?raw=true)
 
 3.  Users can click on a bar to see corresponding star ratings ratio of claimed to unclaimed businesses.
 
-![alt tag](file:///Users/edwarddong/Desktop/Screen%20Shot%202015-07-07%20at%209.57.41%20PM.png)
+![alt tag](https://github.com/edwarddong86/yelper/blob/master/screenshots/Screen%20Shot%202015-07-07%20at%209.57.41%20PM.png?raw=true)
 

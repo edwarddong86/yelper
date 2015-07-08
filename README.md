@@ -9,5 +9,5 @@
 
 3.  Users can click on a bar to see corresponding star ratings ratio of claimed to unclaimed businesses.
 
-![alt tag](https://github.com/edwarddong86/yelper/blob/master/screenshots/Screen%20Shot%202015-07-07%20at%209.57.41%20PM.png?raw=true)
+![alt tag](https://github.com/edwarddong86/yelper/blob/master/screenshots/Screen%20Shot%202015-07-07%20at%2010.22.22%20PM.png?raw=true)
 
